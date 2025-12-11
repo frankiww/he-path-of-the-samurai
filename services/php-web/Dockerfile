@@ -1,8 +1,23 @@
-FROM php:8.3-fpm-alpine
+# FROM php:8.3-fpm-alpine
+
+# Debian-based PHP образ
+FROM php:8.3-fpm
 
 # пакеты и расширения
-RUN apk add --no-cache bash curl git unzip rsync postgresql-dev \
- && docker-php-ext-install pdo pdo_pgsql
+# RUN apk update && apk upgrade \
+#  && apk add --no-cache bash curl git unzip rsync postgresql-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \
+# #  && apk add --no-cache bash curl git unzip rsync postgresql-client \
+#  && docker-php-ext-install pdo pdo_pgsql
+
+RUN apt-get update && apt-get install -y \
+    bash \
+    curl \
+    git \
+    unzip \
+    rsync \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql \
+    && rm -rf /var/lib/apt/lists/*
 
 # composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
