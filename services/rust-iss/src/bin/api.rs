@@ -8,6 +8,7 @@ use rust_iss::infrastructure::clients::iss;
 use rust_iss::application::services::dtos::health_dto::HealthDto;
 use rust_iss::api::routers::{space_router,health_router, iss_router, osdr_router};
 use rust_iss::migrations::init::init_db;
+use rust_iss::application::workers::iss_worker::start_iss_worker;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -16,6 +17,7 @@ async fn main() -> anyhow::Result<()> {
         .finish();
     let _ = tracing::subscriber::set_global_default(subscriber);
     let state = AppState::new().await?;
+    start_iss_worker(state.clone()).await;
 
     let app = Router::new()
         // общее

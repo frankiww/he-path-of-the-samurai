@@ -9,6 +9,10 @@ name = "api"
 path = "src/bin/api.rs"
 
 [[bin]]
+name = "iss"
+path = "src/bin/iss.rs"
+
+[[bin]]
 name = "apod"
 path = "src/bin/apod.rs"
 

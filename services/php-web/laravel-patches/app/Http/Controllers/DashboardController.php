@@ -20,10 +20,12 @@ class DashboardController extends Controller
         // минимум: карта МКС и пустые контейнеры, JWST-галерея подтянется через /api/jwst/feed
         $b     = $this->base();
         $iss   = $this->getJson($b.'/last');
+        $issData = $iss['Res'] ?? $iss;
+
         $trend = []; // фронт сам заберёт /api/iss/trend (через nginx прокси)
 
         return view('dashboard', [
-            'iss' => $iss,
+            'iss' => $issData,
             'trend' => $trend,
             'jw_gallery' => [], // не нужно сервером
             'jw_observation_raw' => [],
@@ -31,8 +33,8 @@ class DashboardController extends Controller
             'jw_observation_images' => [],
             'jw_observation_files' => [],
             'metrics' => [
-                'iss_speed' => $iss['payload']['velocity'] ?? null,
-                'iss_alt'   => $iss['payload']['altitude'] ?? null,
+                'iss_speed' => $issData['payload']['velocity'] ?? null,
+                'iss_alt'   => $issData['payload']['altitude'] ?? null,
                 'neo_total' => 0,
             ],
         ]);
