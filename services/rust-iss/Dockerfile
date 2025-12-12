@@ -9,13 +9,13 @@ RUN mkdir -p src && printf 'fn main() {}' > src/main.rs && cargo fetch
 
 # исходники и сборка
 COPY src ./src
-RUN cargo build --release
+RUN cargo build --release --bin api
 
 # Runtime stage
 FROM debian:12-slim
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
 ENV RUST_LOG=info
 WORKDIR /app
-COPY --from=build /app/target/release/rust_iss /usr/local/bin/rust_iss
+COPY --from=build /app/target/release/api /usr/local/bin/api
 EXPOSE 3000
-CMD ["rust_iss"]
+CMD ["api"]
