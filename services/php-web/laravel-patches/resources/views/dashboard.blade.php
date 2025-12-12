@@ -20,7 +20,17 @@
       <div class="card shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title">JWST — выбранное наблюдение</h5>
-          <div class="text-muted">Этот блок остаётся как был (JSON/сводка). Основная галерея ниже.</div>
+          <!-- <div class="text-muted">Этот блок остаётся как был (JSON/сводка). Основная галерея ниже.</div> -->
+           <div class="d-flex align-items-start">
+            <img src="https://apod.nasa.gov/apod/image/2512/NGC1532_1024.jpg" 
+     alt="JWST preview" class="me-3 mb-2" style="border-radius:4px; width:100px; height:auto;">
+            <div>
+              <p class="mb-1"><strong>Название:</strong> NGC 1300 — спиральная галактика</p>
+              <p class="mb-1"><strong>Дата наблюдения:</strong> 2025-12-11</p>
+              <p class="mb-1 text-muted">Этот блок остаётся как был (JSON/сводка). Основная галерея ниже.</p>
+              <small class="text-muted">Источник: NASA JWST</small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
