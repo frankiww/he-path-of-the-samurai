@@ -1,3 +1,4 @@
+// подключение модулей
 use std::{collections::HashMap, time::Duration};
 
 use axum::{
@@ -13,6 +14,7 @@ use sqlx::{postgres::PgPoolOptions, PgPool, Row};
 use tracing::{error, info};
 use tracing_subscriber::{EnvFilter, FmtSubscriber};
 
+// определение структур
 #[derive(Serialize)]
 struct Health { status: &'static str, now: DateTime<Utc> }
 
@@ -29,14 +31,15 @@ struct AppState {
     every_donki: u64,
     every_spacex: u64,
 }
-
+// функция мейн
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    // логирование
     let subscriber = FmtSubscriber::builder()
         .with_env_filter(EnvFilter::from_default_env())
         .finish();
     let _ = tracing::subscriber::set_global_default(subscriber);
-
+    // чтение переменных окружения 
     dotenvy::dotenv().ok();
 
     let db_url = std::env::var("DATABASE_URL").expect("DATABASE_URL is required");
@@ -54,10 +57,10 @@ async fn main() -> anyhow::Result<()> {
     let every_neo    = env_u64("NEO_EVERY_SECONDS",   7200);  // 2ч
     let every_donki  = env_u64("DONKI_EVERY_SECONDS", 3600);  // 1ч
     let every_spacex = env_u64("SPACEX_EVERY_SECONDS",3600);
-
+    //  создание пула бд
     let pool = PgPoolOptions::new().max_connections(5).connect(&db_url).await?;
     init_db(&pool).await?;
-
+    //  создание состояние приложения
     let state = AppState {
         pool: pool.clone(),
         nasa_url: nasa_url.clone(),
@@ -126,7 +129,7 @@ async fn main() -> anyhow::Result<()> {
             }
         });
     }
-
+    // маршруты сервера
     let app = Router::new()
         // общее
         .route("/health", get(|| async { Json(Health { status: "ok", now: Utc::now() }) }))
@@ -149,11 +152,12 @@ async fn main() -> anyhow::Result<()> {
     axum::serve(listener, app.into_make_service()).await?;
     Ok(())
 }
-
+// читает енв переменную и преобразует в u64
 fn env_u64(k: &str, d: u64) -> u64 {
     std::env::var(k).ok().and_then(|s| s.parse().ok()).unwrap_or(d)
 }
 
+// создает таблицы
 /* ---------- DB boot ---------- */
 async fn init_db(pool: &PgPool) -> anyhow::Result<()> {
     // ISS

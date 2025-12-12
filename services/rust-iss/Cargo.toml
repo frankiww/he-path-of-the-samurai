@@ -4,7 +4,32 @@ name = "rust_iss"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "api"
+path = "src/bin/api.rs"
+
+[[bin]]
+name = "apod"
+path = "src/bin/apod.rs"
+
+[[bin]]
+name = "neows"
+path = "src/bin/neows.rs"
+
+[[bin]]
+name = "donki"
+path = "src/bin/donki.rs"
+
+[[bin]]
+name = "spacex"
+path = "src/bin/spacex.rs"
+
+[[bin]]
+name = "osdr"
+path = "src/bin/osdr.rs"
+
 [dependencies]
+redis = { version = "0.28", features = ["tokio-comp"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
 axum = "0.7"
 serde = { version = "1", features = ["derive"] }
@@ -17,4 +42,5 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 chrono = { version = "0.4", features = ["serde"] }
 anyhow = "1"
+
 
