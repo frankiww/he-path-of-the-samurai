@@ -9,13 +9,13 @@
       <div class="card bg-dark text-light shadow-sm border-secondary">
         <div class="card-body">
           <h5 class="card-title">Последний снимок</h5>
-          @if(!empty($last['payload']))
+          @if(!empty($last['Res']['payload']))
             <ul class="list-group list-group-flush bg-dark text-light border-secondary">
-              <li class="list-group-item bg-secondary text-light border-secondary">Широта {{ $last['payload']['latitude'] ?? '—' }}</li>
-              <li class="list-group-item bg-secondary text-light border-secondary">Долгота {{ $last['payload']['longitude'] ?? '—' }}</li>
-              <li class="list-group-item bg-secondary text-light border-secondary">Высота км {{ $last['payload']['altitude'] ?? '—' }}</li>
-              <li class="list-group-item bg-secondary text-light border-secondary">Скорость км/ч {{ $last['payload']['velocity'] ?? '—' }}</li>
-              <li class="list-group-item bg-secondary text-light border-secondary">Время {{ $last['fetched_at'] ?? '—' }}</li>
+              <li class="list-group-item bg-secondary text-light border-secondary">Широта: {{ $last['Res']['payload']['latitude'] ?? '—' }}</li>
+              <li class="list-group-item bg-secondary text-light border-secondary">Долгота: {{ $last['Res']['payload']['longitude'] ?? '—' }}</li>
+              <li class="list-group-item bg-secondary text-light border-secondary">Высота:  {{ $last['Res']['payload']['altitude'] ?? '—' }} км</li>
+              <li class="list-group-item bg-secondary text-light border-secondary">Скорость: {{ $last['Res']['payload']['velocity'] ?? '—' }} км/ч</li>
+              <li class="list-group-item bg-secondary text-light border-secondary">Время: {{ $last['Res']['fetched_at'] ?? '—' }}</li>
             </ul>
           @else
             <div class="text-muted">нет данных</div>
