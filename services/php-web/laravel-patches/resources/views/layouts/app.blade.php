@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/dashboard">Dashboard</a>
     <a class="nav-link" href="/iss">ISS</a>
@@ -19,6 +19,7 @@
   </div>
 </nav>
 @yield('content')
+<div style="margin-top: 70px;"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
