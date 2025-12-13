@@ -3,20 +3,20 @@
 @section('content')
 
 <!-- ASTRO — события -->
-<div class="col-12 order-first mt-3">
-  <div class="card shadow-sm">
+<div class="container pb-5">
+  <div class="card bg-dark text-light shadow-sm border-secondary">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <h5 class="card-title m-0">Астрономические события (AstronomyAPI)</h5>
         <form id="astroForm" class="row g-2 align-items-center">
           <div class="col-auto">
-            <input type="number" step="0.0001" class="form-control form-control-sm" name="lat" value="55.7558" placeholder="lat">
+            <input type="number" step="0.0001" class="form-control form-control-sm bg-secondary text-light border-secondary" name="lat" value="55.7558" placeholder="lat">
           </div>
           <div class="col-auto">
-            <input type="number" step="0.0001" class="form-control form-control-sm" name="lon" value="37.6176" placeholder="lon">
+            <input type="number" step="0.0001" class="form-control form-control-sm bg-secondary text-light border-secondary" name="lon" value="37.6176" placeholder="lon">
           </div>
           <div class="col-auto">
-            <input type="number" min="1" max="30" class="form-control form-control-sm" name="days" value="7" style="width:90px" title="дней">
+            <input type="number" min="1" max="30" class="form-control form-control-sm bg-secondary text-light border-secondary" name="days" value="7" style="width:90px" title="дней">
           </div>
           <div class="col-auto">
             <button class="btn btn-sm btn-primary" type="submit">Показать</button>
@@ -25,7 +25,7 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-sm align-middle">
+        <table class="table table-sm table-dark table-striped align-middle">
           <thead>
             <tr><th>#</th><th>Тело</th><th>Событие</th><th>Когда (UTC)</th><th>Дополнительно</th></tr>
           </thead>
@@ -37,102 +37,104 @@
 
       <details class="mt-2">
         <summary>Полный JSON</summary>
-        <pre id="astroRaw" class="bg-light rounded p-2 small m-0" style="white-space:pre-wrap"></pre>
+        <pre id="astroRaw" class="bg-secondary text-light rounded p-2 small m-0" style="white-space:pre-wrap"></pre>
       </details>
     </div>
   </div>
 </div>
 
 <!-- {{-- ===== Данный блок ===== --}} -->
-<div class="card mt-3">
-  <div class="card-header fw-semibold">CMS</div>
-  <div class="card-body">
-    @php
-      try {
-        // «плохо»: запрос из Blade, без кэша, без репозитория
-        $___b = DB::selectOne("SELECT body FROM cms_pages WHERE slug='dashboard_experiment' LIMIT 1");
-        echo $___b ? $___b->body : '<div class="text-muted">блок не найден</div>';
-      } catch (\Throwable $e) {
-        echo '<div class="text-danger">ошибка БД: '.e($e->getMessage()).'</div>';
-      }
-    @endphp
+<div class="container pb-5">
+  <div class="card bg-dark text-light shadow-sm border-secondary">
+    <div class="card-header fw-semibold bg-secondary text-light">CMS</div>
+    <div class="card-body">
+      @php
+        try {
+          $___b = DB::selectOne("SELECT body FROM cms_pages WHERE slug='dashboard_experiment' LIMIT 1");
+          echo $___b ? $___b->body : '<div class="text-muted">блок не найден</div>';
+        } catch (\Throwable $e) {
+          echo '<div class="text-danger">ошибка БД: '.e($e->getMessage()).'</div>';
+        }
+      @endphp
+    </div>
   </div>
 </div>
 
 <div class="container pb-5">
   {{-- верхние карточки --}}
   <div class="row g-3 mb-2">
-    <div class="col-6 col-md-3"><div class="border rounded p-2 text-center">
-      <div class="small text-muted">Скорость МКС</div>
-      <div class="fs-4">{{ isset(($iss['payload'] ?? [])['velocity']) ? number_format($iss['payload']['velocity'],0,'',' ') : '—' }}</div>
-    </div></div>
-    <div class="col-6 col-md-3"><div class="border rounded p-2 text-center">
-      <div class="small text-muted">Высота МКС</div>
-      <div class="fs-4">{{ isset(($iss['payload'] ?? [])['altitude']) ? number_format($iss['payload']['altitude'],0,'',' ') : '—' }}</div>
-    </div></div>
+    <div class="col-6">
+      <div class="border rounded p-3 text-center bg-secondary text-light">
+        <div class="small text-light">Скорость МКС</div>
+        <div class="fs-4">{{ isset(($iss['payload'] ?? [])['velocity']) ? number_format($iss['payload']['velocity'],0,'',' ') : '—' }}</div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="border rounded p-3 text-center bg-secondary text-light">
+        <div class="small text-light">Высота МКС</div>
+        <div class="fs-4">{{ isset(($iss['payload'] ?? [])['altitude']) ? number_format($iss['payload']['altitude'],0,'',' ') : '—' }}</div>
+      </div>
+    </div>
   </div>
 
   <div class="row g-3">
-    {{-- левая колонка: JWST наблюдение (как раньше было под APOD можно держать своим блоком) --}}
-    <div class="col-lg-7">
-      <div class="card shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">JWST — выбранное наблюдение</h5>
-          <!-- <div class="text-muted">Этот блок остаётся как был (JSON/сводка). Основная галерея ниже.</div> -->
-           <div class="d-flex align-items-start">
+    {{-- левая колонка: JWST наблюдение --}}
+    <div class="col-lg-6">
+      <div class="card bg-dark text-light shadow-sm h-100 border-secondary">
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <div class="text-center">
+            <h5 class="card-title">JWST — выбранное наблюдение</h5>
             <img src="https://apod.nasa.gov/apod/image/2512/NGC1532_1024.jpg" 
-     alt="JWST preview" class="me-3 mb-2" style="border-radius:4px; width:100px; height:auto;">
-            <div>
-              <p class="mb-1"><strong>Название:</strong> NGC 1300 — спиральная галактика</p>
-              <p class="mb-1"><strong>Дата наблюдения:</strong> 2025-12-11</p>
-              <p class="mb-1 text-muted">Этот блок остаётся как был (JSON/сводка). Основная галерея ниже.</p>
-              <small class="text-muted">Источник: NASA JWST</small>
-            </div>
+              alt="JWST preview" class="me-3 mb-2 border border-secondary rounded" style="width:150px; height:auto;">
+            <p class="mb-1"><strong>Название:</strong> NGC 1300 — спиральная галактика</p>
+            <p class="mb-1"><strong>Дата наблюдения:</strong> 2025-12-11</p>
+            <p class="mb-1 text-muted">Этот блок остаётся как был (JSON/сводка). Основная галерея ниже.</p>
+            <small class="text-muted">Источник: NASA JWST</small>
           </div>
         </div>
       </div>
     </div>
 
     {{-- правая колонка: карта МКС --}}
-    <div class="col-lg-5">
-      <div class="card shadow-sm h-100">
+    <div class="col-lg-6">
+      <div class="card bg-dark text-light shadow-sm h-100 border-secondary">
         <div class="card-body">
           <h5 class="card-title">МКС — положение и движение</h5>
-          <div id="map" class="rounded mb-2 border" style="height:300px"></div>
+          <div id="map" class="rounded mb-2 border border-secondary" style="height:300px"></div>
           <div class="row g-2">
             <div class="col-6"><canvas id="issSpeedChart" height="110"></canvas></div>
-            <div class="col-6"><canvas id="issAltChart"   height="110"></canvas></div>
+            <div class="col-6"><canvas id="issAltChart" height="110"></canvas></div>
           </div>
         </div>
       </div>
     </div>
 
-    {{-- НИЖНЯЯ ПОЛОСА: НОВАЯ ГАЛЕРЕЯ JWST --}}
+    {{-- НИЖНЯЯ ПОЛОСА: JWST галерея --}}
     <div class="col-12">
-      <div class="card shadow-sm">
+      <div class="card bg-dark text-light shadow-sm border-secondary">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5 class="card-title m-0">JWST — последние изображения</h5>
             <form id="jwstFilter" class="row g-2 align-items-center">
               <div class="col-auto">
-                <select class="form-select form-select-sm" name="source" id="srcSel">
+                <select class="form-select form-select-sm bg-secondary text-light border-secondary" name="source" id="srcSel">
                   <option value="jpg" selected>Все JPG</option>
                   <option value="suffix">По суффиксу</option>
                   <option value="program">По программе</option>
                 </select>
               </div>
               <div class="col-auto">
-                <input type="text" class="form-control form-control-sm" name="suffix" id="suffixInp" placeholder="_cal / _thumb" style="width:140px;display:none">
-                <input type="text" class="form-control form-control-sm" name="program" id="progInp" placeholder="2734" style="width:110px;display:none">
+                <input type="text" class="form-control form-control-sm bg-secondary text-light border-secondary" name="suffix" id="suffixInp" placeholder="_cal / _thumb" style="width:140px;display:none">
+                <input type="text" class="form-control form-control-sm bg-secondary text-light border-secondary" name="program" id="progInp" placeholder="2734" style="width:110px;display:none">
               </div>
               <div class="col-auto">
-                <select class="form-select form-select-sm" name="instrument" style="width:130px">
+                <select class="form-select form-select-sm bg-secondary text-light border-secondary" name="instrument" style="width:130px">
                   <option value="">Любой инструмент</option>
                   <option>NIRCam</option><option>MIRI</option><option>NIRISS</option><option>NIRSpec</option><option>FGS</option>
                 </select>
               </div>
               <div class="col-auto">
-                <select class="form-select form-select-sm" name="perPage" style="width:90px">
+                <select class="form-select form-select-sm bg-secondary text-light border-secondary" name="perPage" style="width:90px">
                   <option>12</option><option selected>24</option><option>36</option><option>48</option>
                 </select>
               </div>
@@ -153,11 +155,10 @@
             .jwst-nav{position:absolute; top:40%; transform:translateY(-50%); z-index:2}
             .jwst-prev{left:-.25rem} .jwst-next{right:-.25rem}
           </style>
-
           <div class="jwst-slider">
-            <button class="btn btn-light border jwst-nav jwst-prev" type="button" aria-label="Prev">‹</button>
-            <div id="jwstTrack" class="jwst-track border rounded"></div>
-            <button class="btn btn-light border jwst-nav jwst-next" type="button" aria-label="Next">›</button>
+            <button class="btn btn-secondary border jwst-nav jwst-prev" type="button" aria-label="Prev">‹</button>
+            <div id="jwstTrack" class="jwst-track border border-secondary rounded"></div>
+            <button class="btn btn-secondary border jwst-nav jwst-next" type="button" aria-label="Next">›</button>
           </div>
 
           <div id="jwstInfo" class="small text-muted mt-2"></div>
